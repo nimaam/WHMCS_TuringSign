@@ -43,7 +43,8 @@ class TuringSignSSL_Helper
         return Capsule::table('tblproducts')
             ->where('servertype', '=', 'TuringSign')
             ->orderBy('name')
-            ->get(['id', 'name']);
+            ->get(['id', 'name'])
+            ->all();
     }
 
     public static function getOrders()
@@ -75,7 +76,8 @@ class TuringSignSSL_Helper
                 'p.configoption2',
                 'p.configoption3',
             ])
-            ->get();
+            ->get()
+            ->all();
     }
 
     public static function getOrderWithProduct($orderId)
@@ -349,7 +351,8 @@ class TuringSignSSL_Helper
                 'j.*',
                 'p.name as product_name',
             ])
-            ->get();
+            ->get()
+            ->all();
     }
 
     public static function processQueue($limit = 3)

@@ -170,6 +170,12 @@ the Step 1/2/3 page hooks.
 
 ## Changes
 
+### 1.0.7.5
+
+- Fixed a `TypeError` on the first load of **Addons → TuringSign SSL** caused
+  by `array_map()` being called on Laravel `Collection` objects. The dashboard
+  queries now return plain arrays.
+
 ### 1.0.7.4
 
 - Added the **TuringSign SSL** admin dashboard addon (SSL list, reports,

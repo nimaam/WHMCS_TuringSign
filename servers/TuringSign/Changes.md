@@ -1,5 +1,26 @@
 # TuringSign WHMCS Module — Changes
 
+## 1.0.7.5 — 2026-11-19
+
+### Fixed — TuringSign SSL dashboard page error
+
+The dashboard SSL tab could fail with a PHP `TypeError` because the helper
+called `array_map()` on Laravel `Collection` objects returned by the query
+builder:
+
+```
+array_map(): Argument #2 ($array) must be of type array,
+Illuminate\Support\Collection given
+```
+
+This affected the first page load of **Addons → TuringSign SSL** (the default
+SSL tab).
+
+**Fix:** `getOrders()`, `getProducts()` and `getQueueJobs()` now return plain
+arrays (`->get()->all()`), so the cache refresh, view data and template loops
+receive the expected types. The addon's PHP/JS syntax and the three tab
+templates were re-verified.
+
 ## 1.0.7.4 — 2026-11-19
 
 ### Added — TuringSign SSL addon dashboard

@@ -185,6 +185,7 @@ the Step 1/2/3 page hooks.
   relative to the custom admin directory.
 - Removed the `TuringSignSSL_sidebar()` callback that caused a literal `Array`
   in the admin sidebar.
+- Set the addon metadata version to **1.0.7.7** to match the package.
 
 ### 1.0.7.6
 

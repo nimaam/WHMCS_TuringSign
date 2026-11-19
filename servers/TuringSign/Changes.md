@@ -35,6 +35,11 @@ WHMCS rendered as the literal word `Array` at the top of the sidebar. The
 callback was removed; the addon remains available from **Addons → TuringSign
 SSL**.
 
+### Changed — addon version
+
+The addon `_config()` and `whmcs.json` versions are now **1.0.7.7**, matching the
+server module/package version (previously the addon had its own 1.0.x number).
+
 ## 1.0.7.6 — 2026-11-19
 
 ### Changed — dashboard theme aligned with OX-WHMCS

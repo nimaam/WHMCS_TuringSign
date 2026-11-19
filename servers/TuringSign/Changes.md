@@ -1,5 +1,40 @@
 # TuringSign WHMCS Module — Changes
 
+## 1.0.7.8 — 2026-11-19
+
+### Fixed — `array_map()` received an `Illuminate\Support\Collection`
+
+The TuringSign SSL dashboard crashed with:
+
+```
+TypeError: array_map(): Argument #2 ($array) must be of type array,
+Illuminate\Support\Collection given
+```
+
+`Capsule::table(...)->get()` returns a Laravel collection. `getOrders()`,
+`getProducts()` and `getQueueJobs()` already ended in `->all()`, but
+`getCacheMap()` and `refreshOrderCache()` still trusted whatever the caller
+passed, and the report query mapped rows directly.
+
+**Fix:** `getCacheMap()` and `refreshOrderCache()` no longer take typed arrays;
+both normalise their input with a new `normalizeRows()` helper that flattens a
+Laravel collection (`->all()`), any `Traversable` (`iterator_to_array()`) or a
+plain array, and `orderIdFrom()` reads the order id from scalars, objects and
+`->toArray()` rows. `getReport()` and the SSL tab also normalise query results
+before mapping. The dashboard no longer depends on the query builder returning
+a specific type.
+
+### Fixed — cron helper include path
+
+`lib/Cron.php` required `__DIR__ . '/lib/Helper.php'`, i.e.
+`modules/addons/TuringSignSSL/lib/lib/Helper.php`, so the first WHMCS cron run
+would have failed with a fatal error. It now requires `__DIR__ . '/Helper.php'`.
+
+### Version
+
+The addon `_config()`, both `whmcs.json` files and `composer.json` are now
+**1.0.7.8**, matching the package.
+
 ## 1.0.7.7 — 2026-11-19
 
 ### Fixed — dashboard loaded unstyled in the admin area

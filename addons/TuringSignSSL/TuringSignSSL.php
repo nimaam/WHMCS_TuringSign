@@ -11,7 +11,7 @@ function TuringSignSSL_config()
     return [
         'name' => 'TuringSign SSL',
         'description' => 'TuringSign SSL certificate dashboard: certificates, reports and tools.',
-        'version' => '1.0.7.7',
+        'version' => '1.0.7.8',
         'author' => 'Ultahost',
         'fields' => [],
     ];

@@ -4,7 +4,7 @@ if (!defined('WHMCS')) {
     die('This file cannot be accessed directly');
 }
 
-require_once __DIR__ . '/lib/Helper.php';
+require_once __DIR__ . '/Helper.php';
 
 class TuringSignSSL_Cron
 {

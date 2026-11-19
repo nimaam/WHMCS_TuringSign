@@ -2,7 +2,7 @@
   "schema": "1.0",
   "type": "whmcs-servers",
   "name": "TuringSign",
-  "version": "1.0.7.7",
+  "version": "1.0.7.8",
   "category": "digitalservices",
   "description": {
     "name": "TuringSign"

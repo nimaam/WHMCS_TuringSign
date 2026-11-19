@@ -178,6 +178,18 @@ the Step 1/2/3 page hooks.
 
 ## Changes
 
+### 1.0.7.8
+
+- Hardened the dashboard against
+  `array_map(): Argument #2 ($array) must be of type array, Illuminate\Support\Collection given`.
+  `getOrders()`, `getProducts()` and `getQueueJobs()` return plain arrays, and
+  `getCacheMap()` / `refreshOrderCache()` now normalise arrays, Laravel
+  collections and `->toArray()` rows before they reach `array_map()`.
+- Fixed the helper include path in `lib/Cron.php` (`/lib/lib/Helper.php`), which
+  would have fataled on the first WHMCS cron run.
+- Set the addon and module metadata versions to **1.0.7.8** to match the
+  package.
+
 ### 1.0.7.7
 
 - Fixed the dashboard loading unstyled in the admin area: CSS, JavaScript and

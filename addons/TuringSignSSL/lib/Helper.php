@@ -101,13 +101,13 @@ class TuringSignSSL_Helper
             ->first();
     }
 
-    public static function getCacheMap(array $orderIds)
+    public static function getCacheMap($orderIds)
     {
         if (!Capsule::schema()->hasTable('mod_turingsign_ssl_cache')) {
             return [];
         }
 
-        $orderIds = array_values(array_unique(array_filter(array_map('intval', $orderIds))));
+        $orderIds = array_values(array_unique(array_filter(array_map([self::class, 'orderIdFrom'], self::normalizeRows($orderIds)))));
 
         if (empty($orderIds)) {
             return [];
@@ -148,16 +148,20 @@ class TuringSignSSL_Helper
 
     public static function refreshOrderCache($orders, $limit = 15)
     {
+        $orders = self::normalizeRows($orders);
+
         if (empty($orders) || !Capsule::schema()->hasTable('mod_turingsign_ssl_cache')) {
             return 0;
         }
 
+        $orders = array_map(function ($order) {
+            return is_array($order) ? (object) $order : $order;
+        }, $orders);
+
         $limit = max(1, (int) $limit);
         $now = date('Y-m-d H:i:s');
         $staleAfter = date('Y-m-d H:i:s', time() - (self::CACHE_TTL_MINUTES * 60));
-        $cache = self::getCacheMap(array_map(function ($order) {
-            return (int) $order->order_id;
-        }, $orders));
+        $cache = self::getCacheMap(array_map([self::class, 'orderIdFrom'], $orders));
 
         $apis = [];
         $updated = 0;
@@ -523,7 +527,7 @@ class TuringSignSSL_Helper
             $query->addSelect(Capsule::raw('NULL as api_status'));
         }
 
-        $rows = $query->get();
+        $rows = self::normalizeRows($query->get());
 
         $productStatuses = ['Pending', 'Issued', 'Revoked', 'Cancelled'];
         $reportStatuses = ['Pending', 'Issued', 'Revoked', 'Cancelled', 'Expired', 'Suspended', 'Other'];
@@ -627,13 +631,11 @@ class TuringSignSSL_Helper
         $data = [];
 
         if ($tab === 'ssl') {
-            $orders = self::getOrders();
+            $orders = self::normalizeRows(self::getOrders());
             self::refreshOrderCache($orders, 15);
 
             $data['orders'] = $orders;
-            $data['cache'] = self::getCacheMap(array_map(function ($order) {
-                return (int) $order->order_id;
-            }, $orders));
+            $data['cache'] = self::getCacheMap(array_map([self::class, 'orderIdFrom'], $orders));
         } elseif ($tab === 'report') {
             list($period, $start, $end) = self::resolvePeriod(
                 $_GET['period'] ?? 'monthly',
@@ -870,6 +872,30 @@ class TuringSignSSL_Helper
     public static function h($value)
     {
         return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');
+    }
+
+    private static function normalizeRows($rows)
+    {
+        if (is_object($rows) && method_exists($rows, 'all')) {
+            $rows = $rows->all();
+        } elseif ($rows instanceof \Traversable) {
+            $rows = iterator_to_array($rows);
+        }
+
+        return is_array($rows) ? array_values($rows) : [];
+    }
+
+    private static function orderIdFrom($order)
+    {
+        if (is_array($order)) {
+            return (int) ($order['order_id'] ?? $order['id'] ?? 0);
+        }
+
+        if (is_object($order)) {
+            return (int) ($order->order_id ?? $order->id ?? 0);
+        }
+
+        return (int) $order;
     }
 
     private static function isDate($value)

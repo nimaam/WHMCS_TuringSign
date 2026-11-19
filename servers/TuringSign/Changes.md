@@ -1,5 +1,40 @@
 # TuringSign WHMCS Module — Changes
 
+## 1.0.7.7 — 2026-11-19
+
+### Fixed — dashboard loaded unstyled in the admin area
+
+The dashboard CSS, JavaScript and logo were referenced with paths relative to
+the admin page:
+
+```html
+modules/addons/TuringSignSSL/assets/css/layers-ui.css
+```
+
+WHMCS admin pages live under the custom admin directory
+(`/<admin-path>/addonmodules.php`), so those requests went to
+`/<admin-path>/modules/...` and returned 404. The dashboard therefore rendered
+without the OX theme, without Chart.js and with a broken logo.
+
+**Fix:** `TuringSignSSL_output()` now builds an absolute asset base from the
+WHMCS `SystemURL`:
+
+```php
+$assetBase = rtrim(WHMCS\Config\Setting::getValue('SystemURL'), '/')
+    . '/modules/addons/TuringSignSSL';
+```
+
+All CSS, JavaScript and the `logo.svg` URL use `$assetBase`. The assets are
+confirmed reachable at
+`https://<system-url>/modules/addons/TuringSignSSL/assets/...`.
+
+### Fixed — literal `Array` in the admin sidebar
+
+The optional `TuringSignSSL_sidebar()` callback returned an array in a format
+WHMCS rendered as the literal word `Array` at the top of the sidebar. The
+callback was removed; the addon remains available from **Addons → TuringSign
+SSL**.
+
 ## 1.0.7.6 — 2026-11-19
 
 ### Changed — dashboard theme aligned with OX-WHMCS

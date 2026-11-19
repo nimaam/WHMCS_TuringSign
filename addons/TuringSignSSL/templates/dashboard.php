@@ -3,6 +3,7 @@
  * @var string $tab
  * @var string $moduleUrl
  * @var string $logoUrl
+ * @var string $assetBase
  * @var string $csrfInput
  * @var array|null $flash
  * @var array $orders
@@ -29,9 +30,9 @@ $periodLabels = [
 
 $palette = ['#2f8de4', '#5bc758', '#ff9900', '#ed4040', '#8e44ad', '#16a085', '#f1c40f', '#e67e22'];
 ?>
-<link rel="stylesheet" href="modules/addons/TuringSignSSL/assets/css/layers-ui.css">
-<link rel="stylesheet" href="modules/addons/TuringSignSSL/assets/css/mg_styles.css">
-<link rel="stylesheet" href="modules/addons/TuringSignSSL/assets/css/dashboard.css">
+<link rel="stylesheet" href="<?= TuringSignSSL_Helper::h($assetBase) ?>/assets/css/layers-ui.css">
+<link rel="stylesheet" href="<?= TuringSignSSL_Helper::h($assetBase) ?>/assets/css/mg_styles.css">
+<link rel="stylesheet" href="<?= TuringSignSSL_Helper::h($assetBase) ?>/assets/css/dashboard.css">
 
 <div id="layers">
     <div class="lu-app">
@@ -340,7 +341,7 @@ $palette = ['#2f8de4', '#5bc758', '#ff9900', '#ed4040', '#8e44ad', '#16a085', '#
                     <script>
                         window.TuringSignSSLReport = <?= $reportJson ?>;
                     </script>
-                    <script src="modules/addons/TuringSignSSL/assets/js/chart.umd.min.js"></script>
+                    <script src="<?= TuringSignSSL_Helper::h($assetBase) ?>/assets/js/chart.umd.min.js"></script>
 
                 <?php else: ?>
                     <div class="lu-row">
@@ -490,4 +491,4 @@ $palette = ['#2f8de4', '#5bc758', '#ff9900', '#ed4040', '#8e44ad', '#16a085', '#
     </div>
 </div>
 
-<script src="modules/addons/TuringSignSSL/assets/js/dashboard.js"></script>
+<script src="<?= TuringSignSSL_Helper::h($assetBase) ?>/assets/js/dashboard.js"></script>

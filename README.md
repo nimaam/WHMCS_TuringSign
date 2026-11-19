@@ -178,6 +178,14 @@ the Step 1/2/3 page hooks.
 
 ## Changes
 
+### 1.0.7.7
+
+- Fixed the dashboard loading unstyled in the admin area: CSS, JavaScript and
+  the logo now use an absolute `SystemURL`-based asset path instead of a path
+  relative to the custom admin directory.
+- Removed the `TuringSignSSL_sidebar()` callback that caused a literal `Array`
+  in the admin sidebar.
+
 ### 1.0.7.6
 
 - Restyled the dashboard SSL list and Reports tab with the same **OX-WHMCS /

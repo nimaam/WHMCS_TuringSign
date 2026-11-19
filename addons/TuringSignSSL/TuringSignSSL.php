@@ -11,7 +11,7 @@ function TuringSignSSL_config()
     return [
         'name' => 'TuringSign SSL',
         'description' => 'TuringSign SSL certificate dashboard: certificates, reports and tools.',
-        'version' => '1.0.1',
+        'version' => '1.0.2',
         'author' => 'Ultahost',
         'fields' => [],
     ];
@@ -55,21 +55,16 @@ function TuringSignSSL_output($vars)
     $data = TuringSignSSL_Helper::getViewData($tab);
     $flash = TuringSignSSL_Helper::pullFlash();
     $moduleUrl = 'addonmodules.php?module=TuringSignSSL';
-    $logoUrl = 'modules/addons/TuringSignSSL/logo.svg';
+
+    $systemUrl = rtrim((string) \WHMCS\Config\Setting::getValue('SystemURL'), '/');
+    $assetBase = $systemUrl !== ''
+        ? $systemUrl . '/modules/addons/TuringSignSSL'
+        : '../modules/addons/TuringSignSSL';
+
+    $logoUrl = $assetBase . '/logo.svg';
     $csrfInput = generate_token();
 
     extract($data, EXTR_SKIP);
 
     include __DIR__ . '/templates/dashboard.php';
-}
-
-function TuringSignSSL_sidebar($vars)
-{
-    return [
-        'TuringSign SSL' => [
-            'name' => 'TuringSign SSL',
-            'uri' => 'addonmodules.php?module=TuringSignSSL',
-            'icon' => 'fas fa-lock',
-        ],
-    ];
 }

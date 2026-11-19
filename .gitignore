@@ -1,0 +1,62 @@
+# --- macOS metadata ---
+.DS_Store
+._*
+__MACOSX/
+.AppleDouble
+.LSOverride
+Icon?
+.Spotlight-V100/
+.Trashes/
+.fseventsd/
+.TemporaryItems/
+
+# --- OpenCode / agent tooling ---
+.opencode/
+.opencode*
+opencode.json
+opencode.jsonc
+opencode.log
+*.opencode
+
+# --- Generated index / cache files ---
+# (not application entry points such as index.php or index.html)
+*.index
+*.idx
+.index/
+index.cache
+*.cache
+
+# --- Hidden files and directories ---
+# Ignore dotfiles by default, keep repository essentials.
+.*
+!.gitignore
+!.gitattributes
+!.github/
+!.env.example
+!**/.gitkeep
+
+# --- Build artifacts ---
+*.zip
+
+# --- Credentials and secrets ---
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+secrets.*
+credentials.*
+auth.json
+.npmrc
+.pypirc
+config.local.php
+
+# --- Project-specific ---
+# Generated TLS private keys/CSRs used for manual SSL testing.
+ssl/
+
+# --- Local test/staging copies ---
+/test/

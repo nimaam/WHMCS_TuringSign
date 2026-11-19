@@ -1,0 +1,23 @@
+{
+    "name": "modules-garden/turing-sign",
+    "type": "project",
+    "version": "1.0.7.3",
+    "authors": [
+        {
+            "name": "Jakub Filip",
+            "email": "jakub.fi@modulesgarden.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "platform-check": false
+    },
+    "autoload": {
+        "psr-4": {
+            "ModulesGarden\\TuringSign\\": "./"
+        }
+    },
+    "require": {
+        "phpseclib/phpseclib": "^3.0"
+    }
+}

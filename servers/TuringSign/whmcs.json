@@ -1,0 +1,19 @@
+{
+  "schema": "1.0",
+  "type": "whmcs-servers",
+  "name": "TuringSign",
+  "version": "1.0.7.3",
+  "category": "digitalservices",
+  "description": {
+    "name": "TuringSign"
+  },
+  "logo": {
+    "filename": "logo.png"
+  },
+  "authors": [
+    {
+      "name": "ModulesGarden",
+      "homepage": "https:\/\/www.modulesgarden.com\/"
+    }
+  ]
+}

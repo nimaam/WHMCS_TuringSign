@@ -1,5 +1,109 @@
 # TuringSign WHMCS Module — Changes
 
+## 1.0.7.4 — 2026-11-19
+
+### Added — TuringSign SSL addon dashboard
+
+Added a new WHMCS addon at `modules/addons/TuringSignSSL`, available under
+**Addons → TuringSign SSL**.
+
+The dashboard uses the TuringSign logo and has three tabs:
+
+#### 1. SSL Certificates
+
+Lists every SSL order whose `tblsslorders.module` is `TuringSign` with:
+
+- certificate domain / common name
+- client name (company name when set, otherwise first + last name)
+- product name
+- valid from / valid to
+- status (TuringSign API status where available, otherwise the local order status)
+- actions: **Revoke**, **Cancel**, **Renew**
+
+Details:
+
+- **Revoke** calls the TuringSign API `revokeCertificate()` and marks the local
+  order `Revoked`.
+- **Cancel** sets the service status and the local SSL order status to
+  `Cancelled`. The certificate itself is not revoked; it remains valid until
+  expiry.
+- **Renew** uses the module's own `Actions\Renew` class: the order becomes
+  `Awaiting Renew` and the customer receives the configuration email.
+- Valid from/to and the API status are cached in
+  `mod_turingsign_ssl_cache` for 15 minutes and refreshed on page load (up to
+  15 orders) and by cron (up to 20 per run).
+
+#### 2. Reports
+
+Period selector:
+
+- Daily (today)
+- Weekly (last 7 days)
+- Monthly (last 30 days)
+- From / To (custom range)
+
+The report includes:
+
+- total orders and total amount
+- amount and order count per TuringSign product
+- SSL status breakdown
+- a doughnut (circle) chart for SSL statuses
+- a doughnut (circle) chart for amount by product
+
+Data is based on `tblhosting.regdate` for the selected period, joined to the
+TuringSign SSL order and its cached API status.
+
+#### 3. Tools
+
+- **Run configuration** — runs
+  `php -q modules/servers/TuringSign/configure.php` and shows the exit code and
+  output. This creates or updates the module's email templates and client
+  custom fields.
+- **Synchronize products** — loads the WHMCS products whose server module is
+  `TuringSign`, lets you select one, and queues a catalog synchronization. The
+  job is stored in `mod_turingsign_ssl_sync_jobs` and runs on the next WHMCS
+  cron (`AfterCronJob`), using the selected product's API URL, Application ID
+  and Secret Key.
+- The **Sync queue** table shows the last 25 jobs with status, timestamps and
+  error message.
+
+### Database
+
+The addon activation creates:
+
+- `mod_turingsign_ssl_sync_jobs` — queued product synchronizations
+- `mod_turingsign_ssl_cache` — cached API status and certificate validity
+
+### Security
+
+- Every POST action requires the WHMCS admin CSRF token
+  (`generate_token()` / `check_token('WHMCS.admin.default')`).
+- All IDs are cast to integers; all output is HTML-escaped.
+- Revoke/cancel/renew only operate on rows whose module is `TuringSign`.
+- The configuration tool executes a fixed path with `escapeshellarg()` and is
+  available only inside the admin addon.
+- Actions are written to the WHMCS activity log.
+
+### Activation
+
+Install the files, then activate **Addons → TuringSign SSL** once. Activation
+creates the two tables. No server-module reconfiguration is required.
+
+### Files
+
+```
+addons/TuringSignSSL/TuringSignSSL.php
+addons/TuringSignSSL/hooks.php
+addons/TuringSignSSL/whmcs.json
+addons/TuringSignSSL/logo.png
+addons/TuringSignSSL/lib/Helper.php
+addons/TuringSignSSL/lib/Cron.php
+addons/TuringSignSSL/templates/dashboard.php
+addons/TuringSignSSL/assets/css/dashboard.css
+addons/TuringSignSSL/assets/js/dashboard.js
+addons/TuringSignSSL/assets/js/chart.umd.min.js
+```
+
 ## 1.0.7.3 — 2026-11-19
 
 ### Security fixes

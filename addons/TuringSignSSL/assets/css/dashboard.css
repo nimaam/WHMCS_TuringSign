@@ -1,0 +1,127 @@
+.ts-dash {
+    max-width: 1400px;
+}
+
+.ts-dash-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 10px 0 18px;
+}
+
+.ts-logo {
+    height: 64px;
+    width: auto;
+}
+
+.ts-dash-head h2 {
+    margin: 0 0 4px;
+}
+
+.ts-dash-head p {
+    margin: 0;
+}
+
+.ts-tabs {
+    margin-bottom: 0;
+}
+
+.ts-tab-content {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-top: 0;
+    padding: 18px;
+}
+
+.ts-card {
+    border: 1px solid #e3e3e3;
+    border-radius: 6px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: #fff;
+}
+
+.ts-card h4 {
+    margin-top: 0;
+    margin-bottom: 14px;
+}
+
+.ts-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.ts-inline {
+    display: inline-block;
+    margin: 0;
+}
+
+.ts-search {
+    max-width: 340px;
+}
+
+.ts-table td {
+    vertical-align: middle !important;
+}
+
+.ts-actions {
+    white-space: nowrap;
+}
+
+.ts-action-form {
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.ts-action-form:first-child {
+    margin-left: 0;
+}
+
+.ts-report-filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.ts-custom-range {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ts-report-cards .ts-card {
+    text-align: center;
+}
+
+.ts-report-cards .ts-card span {
+    display: block;
+    color: #777;
+    font-size: 12px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.ts-report-cards .ts-card strong {
+    font-size: 24px;
+}
+
+.ts-chart {
+    height: 280px;
+    position: relative;
+}
+
+.ts-pre {
+    max-height: 260px;
+    overflow: auto;
+    background: #f7f7f7;
+    border: 1px solid #e3e3e3;
+    padding: 10px;
+    white-space: pre-wrap;
+    word-break: break-word;
+}

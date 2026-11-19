@@ -1,0 +1,16 @@
+{
+  "schema": "1.0",
+  "type": "whmcs-addons",
+  "name": "TuringSign SSL",
+  "version": "1.0.0",
+  "description": {
+    "name": "TuringSign SSL",
+    "description": "Dashboard for TuringSign SSL certificates: certificate list, reports and tools."
+  },
+  "authors": [
+    {
+      "name": "Ultahost",
+      "homepage": "https://ultahost.com"
+    }
+  ]
+}

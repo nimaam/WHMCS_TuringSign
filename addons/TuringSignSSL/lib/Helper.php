@@ -477,15 +477,21 @@ class TuringSignSSL_Helper
             $from = trim((string) $from);
             $to = trim((string) $to);
 
-            if (self::isDate($from) && self::isDate($to)) {
-                if ($from > $to) {
-                    $swap = $from;
-                    $from = $to;
-                    $to = $swap;
-                }
-
-                return [$period, $from, $to];
+            if (!self::isDate($from)) {
+                $from = date('Y-m-d', strtotime('-29 days'));
             }
+
+            if (!self::isDate($to)) {
+                $to = $today;
+            }
+
+            if ($from > $to) {
+                $swap = $from;
+                $from = $to;
+                $to = $swap;
+            }
+
+            return ['custom', $from, $to];
         }
 
         return ['monthly', date('Y-m-d', strtotime('-29 days')), $today];
@@ -519,8 +525,10 @@ class TuringSignSSL_Helper
 
         $rows = $query->get();
 
+        $productStatuses = ['Pending', 'Issued', 'Revoked', 'Cancelled'];
+        $reportStatuses = ['Pending', 'Issued', 'Revoked', 'Cancelled', 'Expired', 'Suspended', 'Other'];
         $productStats = [];
-        $statusStats = [];
+        $statusStats = array_fill_keys($reportStatuses, 0);
         $totalOrders = 0;
         $totalAmount = 0.0;
 
@@ -532,26 +540,36 @@ class TuringSignSSL_Helper
                     'name' => (string) $row->product_name,
                     'count' => 0,
                     'amount' => 0.0,
+                    'statuses' => array_fill_keys($productStatuses, 0),
+                    'other' => 0,
                 ];
             }
 
             $amount = (float) $row->firstpaymentamount;
+            $status = self::reportStatus(
+                !empty($row->api_status) ? $row->api_status : (!empty($row->local_status) ? $row->local_status : '')
+            );
 
             $productStats[$productId]['count']++;
             $productStats[$productId]['amount'] += $amount;
-            $totalOrders++;
-            $totalAmount += $amount;
 
-            $status = self::normalizeStatus(
-                !empty($row->api_status) ? $row->api_status : (!empty($row->local_status) ? $row->local_status : 'No SSL order')
-            );
-
-            if (!isset($statusStats[$status])) {
-                $statusStats[$status] = 0;
+            if (in_array($status, $productStatuses, true)) {
+                $productStats[$productId]['statuses'][$status]++;
+            } else {
+                $productStats[$productId]['other']++;
             }
 
-            $statusStats[$status]++;
+            $statusStats[$status] = ($statusStats[$status] ?? 0) + 1;
+            $totalOrders++;
+            $totalAmount += $amount;
         }
+
+        foreach ($productStats as &$product) {
+            $product['share'] = $totalOrders > 0
+                ? round(($product['count'] * 100) / $totalOrders, 1)
+                : 0.0;
+        }
+        unset($product);
 
         uasort($productStats, function ($a, $b) {
             return $b['amount'] <=> $a['amount'];
@@ -565,6 +583,43 @@ class TuringSignSSL_Helper
             'totalOrders' => $totalOrders,
             'totalAmount' => $totalAmount,
         ];
+    }
+
+    public static function reportStatus($status)
+    {
+        $status = self::normalizeStatus($status);
+
+        if (in_array($status, ['Pending', 'Configuration Submitted', 'Awaiting Configuration', 'Awaiting Renew'], true)) {
+            return 'Pending';
+        }
+
+        if (in_array($status, ['Issued', 'Active', 'Valid', 'Completed'], true)) {
+            return 'Issued';
+        }
+
+        if (in_array($status, ['Revoked', 'Cancelled', 'Expired', 'Suspended'], true)) {
+            return $status;
+        }
+
+        return 'Other';
+    }
+
+    public static function statusColor($status)
+    {
+        switch ($status) {
+            case 'Issued':
+                return '#5bc758';
+            case 'Pending':
+                return '#2f8de4';
+            case 'Revoked':
+            case 'Cancelled':
+                return '#ed4040';
+            case 'Suspended':
+                return '#ff9900';
+            case 'Expired':
+            default:
+                return '#7f8c8d';
+        }
     }
 
     public static function getViewData($tab)
@@ -595,18 +650,36 @@ class TuringSignSSL_Helper
             $data['statusStats'] = $report['statusStats'];
             $data['totalOrders'] = $report['totalOrders'];
             $data['totalAmount'] = $report['totalAmount'];
+
+            $products = array_values($report['productStats']);
+            $productColors = [];
+            $palette = ['#2f8de4', '#5bc758', '#ff9900', '#ed4040', '#8e44ad', '#16a085', '#f1c40f', '#e67e22'];
+
+            foreach ($products as $index => $product) {
+                $productColors[] = $palette[$index % count($palette)];
+            }
+
+            $statusLabels = array_keys($report['statusStats']);
+
             $data['reportJson'] = json_encode([
-                'status' => [
-                    'labels' => array_keys($report['statusStats']),
-                    'data' => array_values($report['statusStats']),
-                ],
                 'products' => [
                     'labels' => array_map(function ($product) {
                         return $product['name'];
-                    }, array_values($report['productStats'])),
-                    'data' => array_map(function ($product) {
+                    }, $products),
+                    'amounts' => array_map(function ($product) {
                         return round((float) $product['amount'], 2);
-                    }, array_values($report['productStats'])),
+                    }, $products),
+                    'counts' => array_map(function ($product) {
+                        return (int) $product['count'];
+                    }, $products),
+                    'colors' => $productColors,
+                ],
+                'statuses' => [
+                    'labels' => $statusLabels,
+                    'data' => array_values($report['statusStats']),
+                    'colors' => array_map(function ($status) {
+                        return self::statusColor($status);
+                    }, $statusLabels),
                 ],
             ], JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
         } elseif ($tab === 'tools') {
@@ -672,6 +745,12 @@ class TuringSignSSL_Helper
                     self::flash('success', 'Product synchronization queued. It will run on the next WHMCS cron.');
                     self::redirect('addonmodules.php?module=TuringSignSSL&tab=tools');
                     break;
+
+                case 'run_queue':
+                    $processed = self::processQueue(10);
+                    self::flash('success', 'Processed ' . (int) $processed . ' queued synchronization job(s).');
+                    self::redirect('addonmodules.php?module=TuringSignSSL&tab=tools');
+                    break;
             }
         } catch (\Throwable $e) {
             self::flash('error', $e->getMessage());
@@ -698,12 +777,12 @@ class TuringSignSSL_Helper
 
     public static function redirect($url)
     {
-        if (function_exists('redir')) {
-            redir($url);
+        if (!headers_sent()) {
+            header('Location: ' . $url);
             exit;
         }
 
-        header('Location: ' . $url);
+        echo '<script>window.location.href = ' . json_encode($url) . ';</script>';
         exit;
     }
 

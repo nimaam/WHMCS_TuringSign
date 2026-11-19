@@ -1,6 +1,6 @@
 <p align="left">
   <a href="https://turingsign.com">
-    <img src="https://turingsign.com/wp-content/uploads/2024/04/turingsign_logo.png" alt="TuringSign Logo" width="300">
+    <img src="servers/TuringSign/logo.svg" alt="TuringSign Logo" width="300">
   </a>
 </p>
 
@@ -41,11 +41,19 @@ Available under **Addons → TuringSign SSL**, with three tabs:
    and **Renew**.
 2. **Reports** — daily, weekly, monthly and custom from/to periods; order and
    amount totals per product; SSL status breakdown; doughnut (circle) charts
-   for statuses and product amounts.
+   for product amounts and SSL statuses.
 3. **Tools** — run `configure.php` from the dashboard and queue a product
    catalog synchronization for the next WHMCS cron. The product is selected
    from the WHMCS products that use the TuringSign module, so the API URL,
    Application ID and Secret Key do not have to be entered manually.
+
+The dashboard uses the same **OX-WHMCS / Layers** theme as the OpenXchange
+dashboard (`lu-widget`, `lu-table`, `lu-btn`, `lu-label`, OX report cards and
+pills). The header uses `logo.svg`, downloaded from:
+
+```
+https://turingsign.com/wp-content/uploads/2022/12/logosecured.svg
+```
 
 ## Requirements
 
@@ -169,6 +177,18 @@ the Step 1/2/3 page hooks.
 - Dashboard actions are written to the WHMCS activity log.
 
 ## Changes
+
+### 1.0.7.6
+
+- Restyled the dashboard SSL list and Reports tab with the same **OX-WHMCS /
+  Layers** theme used by the OpenXchange dashboard (`lu-widget`, `lu-table`,
+  `lu-btn`, `lu-label`, OX report cards and pills).
+- Added the `logosecured.svg` TuringSign logo and use it in the dashboard
+  header.
+- Aligned the report layout with OX: period buttons, summary cards, product
+  pie chart, product table with status columns, status pie chart and
+  “Current totals” pills.
+- Styled the Tools tab with the same widgets and tables.
 
 ### 1.0.7.5
 

@@ -1,5 +1,46 @@
 # TuringSign WHMCS Module — Changes
 
+## 1.0.7.6 — 2026-11-19
+
+### Changed — dashboard theme aligned with OX-WHMCS
+
+The TuringSign SSL dashboard now uses the same **Layers / OX-WHMCS** theme as
+the OpenXchange dashboard:
+
+- Bundled `layers-ui.css`, `mg_styles.css` and the Material Design icon fonts
+  in `modules/addons/TuringSignSSL/assets/`.
+- The SSL list uses the OX `lu-widget` / `lu-widget__header` / `lu-top` /
+  `lu-widget__body` / `lu-table` structure and `lu-label` status labels.
+- The report uses the OX `mg-ox-sales-report` structure: period buttons,
+  summary cards, product pie chart, product table with status columns, and the
+  “Current totals” status pills.
+- Buttons use `lu-btn`, inputs use `lu-form-control`, and the whole dashboard
+  is wrapped in `#layers` / `.lu-app` so the theme applies consistently.
+- The Tools tab uses the same OX widgets and tables.
+
+### Changed — dashboard logo
+
+Downloaded `https://turingsign.com/wp-content/uploads/2022/12/logosecured.svg`
+to:
+
+- `modules/servers/TuringSign/logo.svg`
+- `modules/addons/TuringSignSSL/logo.svg`
+
+The dashboard header now uses `logo.svg`. The existing `logo.png` is kept for
+WHMCS module metadata where a raster image is expected.
+
+### Changed — report layout
+
+The report now mirrors the OX report:
+
+- Period buttons: Today, Last Week, Last Month, From / To
+- Status summary cards with OX status colors
+- Product pie chart (amount, falling back to order count when all amounts are 0)
+- Product table with Orders, Amount, Pending, Issued, Revoked, Cancelled,
+  Other and Share columns
+- SSL status pie chart
+- “Current totals” status pills
+
 ## 1.0.7.5 — 2026-11-19
 
 ### Fixed — TuringSign SSL dashboard page error

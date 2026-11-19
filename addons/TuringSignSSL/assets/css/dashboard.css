@@ -1,122 +1,83 @@
-.ts-dash {
-    max-width: 1400px;
+/* TuringSign SSL dashboard — OX-WHMCS / Layers theme */
+
+#layers .ts-ox-body {
+    max-width: 1500px;
+    padding: 20px;
 }
 
-.ts-dash-head {
+#layers .ts-brand {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin: 10px 0 18px;
+    gap: 18px;
+    background: #fff;
+    border: 1px solid #e9ebf0;
+    border-radius: 3px;
+    padding: 18px 20px;
+    margin: 0 0 16px;
 }
 
-.ts-logo {
-    height: 64px;
+#layers .ts-logo {
+    height: 56px;
     width: auto;
+    max-width: 260px;
 }
 
-.ts-dash-head h2 {
+#layers .ts-brand-text h2 {
     margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 500;
+    color: #505459;
 }
 
-.ts-dash-head p {
+#layers .ts-brand-text p {
     margin: 0;
+    color: #6b7280;
 }
 
-.ts-tabs {
-    margin-bottom: 0;
-}
-
-.ts-tab-content {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-top: 0;
-    padding: 18px;
-}
-
-.ts-card {
-    border: 1px solid #e3e3e3;
-    border-radius: 6px;
-    padding: 16px;
-    margin-bottom: 16px;
-    background: #fff;
-}
-
-.ts-card h4 {
-    margin-top: 0;
-    margin-bottom: 14px;
-}
-
-.ts-toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
-}
-
-.ts-inline {
-    display: inline-block;
-    margin: 0;
-}
-
-.ts-search {
-    max-width: 340px;
-}
-
-.ts-table td {
-    vertical-align: middle !important;
-}
-
-.ts-actions {
-    white-space: nowrap;
-}
-
-.ts-action-form {
-    display: inline-block;
-    margin-left: 4px;
-}
-
-.ts-action-form:first-child {
-    margin-left: 0;
-}
-
-.ts-report-filter {
+#layers .ts-tabs {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
     gap: 8px;
-    margin-bottom: 12px;
+    margin: 0 0 16px;
 }
 
-.ts-custom-range {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+#layers .ts-tabs .lu-btn {
+    margin: 0;
 }
 
-.ts-report-cards .ts-card {
-    text-align: center;
+#layers .ts-inline {
+    display: inline-block;
+    margin: 0;
 }
 
-.ts-report-cards .ts-card span {
-    display: block;
-    color: #777;
+#layers .lu-t-c__top .lu-form-control {
+    max-width: 360px;
+}
+
+#layers .ts-table-scroll {
+    overflow-x: auto;
+}
+
+#layers .ts-footnote {
+    color: #6b7280;
     font-size: 12px;
-    letter-spacing: .04em;
-    text-transform: uppercase;
-    margin-bottom: 4px;
 }
 
-.ts-report-cards .ts-card strong {
-    font-size: 24px;
+#layers .ts-empty {
+    text-align: center;
+    padding: 20px;
+    color: #6b7280;
 }
 
-.ts-chart {
-    height: 280px;
-    position: relative;
+#layers .ts-widget-pad {
+    padding: 20px;
 }
 
-.ts-pre {
+#layers .ts-mt {
+    margin-top: 10px;
+}
+
+#layers .ts-pre {
     max-height: 260px;
     overflow: auto;
     background: #f7f7f7;
@@ -124,4 +85,148 @@
     padding: 10px;
     white-space: pre-wrap;
     word-break: break-word;
+}
+
+#layers .ts-chart {
+    position: relative;
+    height: 320px;
+}
+
+#layers .ts-chart--status {
+    height: 300px;
+    padding: 20px;
+}
+
+#layers .ts-footnote code {
+    background: #f4f5f7;
+    border: 1px solid #e3e6ea;
+    border-radius: 2px;
+    padding: 1px 5px;
+}
+
+/* OX-WHMCS sales report styling (copied from the OpenXchange report component) */
+#layers .mg-ox-sales-report {
+    margin-top: 0;
+}
+
+#layers .mg-ox-sales-report__body {
+    position: relative;
+    padding: 20px;
+    min-height: 150px;
+}
+
+#layers .mg-ox-sales-report__filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+#layers .mg-ox-sales-report__filters .lu-btn {
+    margin: 0;
+}
+
+#layers .mg-ox-sales-report__label {
+    font-weight: 600;
+    margin-right: 6px;
+}
+
+#layers .mg-ox-sales-report__custom {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-left: 10px;
+}
+
+#layers .mg-ox-sales-report__custom label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+}
+
+#layers .mg-ox-sales-report__custom .lu-form-control {
+    width: auto;
+    height: 32px;
+}
+
+#layers .mg-ox-sales-report__range {
+    color: #6b7280;
+    margin-bottom: 15px;
+}
+
+#layers .mg-ox-sales-report__cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+#layers .mg-ox-sales-report__card {
+    flex: 1 1 130px;
+    border: 1px solid #e9ebf0;
+    border-top: 3px solid #9ca3af;
+    border-radius: 3px;
+    padding: 12px 15px;
+    background: #fff;
+}
+
+#layers .mg-ox-sales-report__card--total {
+    border-top-color: #2f8de4;
+}
+
+#layers .mg-ox-sales-report__card-value {
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+#layers .mg-ox-sales-report__card-label {
+    color: #6b7280;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: .5px;
+}
+
+#layers .mg-ox-sales-report__hint {
+    color: #9ca3af;
+    font-size: 11px;
+    margin: 6px 0 20px;
+}
+
+#layers .mg-ox-sales-report__chart {
+    position: relative;
+    height: 320px;
+}
+
+#layers .mg-ox-sales-report__empty {
+    padding: 60px 15px;
+    text-align: center;
+    color: #6b7280;
+}
+
+#layers .mg-ox-sales-report__table th.mg-ox-num,
+#layers .mg-ox-sales-report__table td.mg-ox-num {
+    text-align: right;
+}
+
+#layers .mg-ox-sales-report__dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 6px;
+    vertical-align: middle;
+}
+
+#layers .mg-ox-sales-report__current {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e9ebf0;
+}
+
+#layers .mg-ox-sales-report__pill {
+    display: inline-block;
+    margin: 0 12px 4px 0;
 }

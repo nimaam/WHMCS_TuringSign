@@ -11,7 +11,7 @@ function TuringSignSSL_config()
     return [
         'name' => 'TuringSign SSL',
         'description' => 'TuringSign SSL certificate dashboard: certificates, reports and tools.',
-        'version' => '1.0.0',
+        'version' => '1.0.1',
         'author' => 'Ultahost',
         'fields' => [],
     ];
@@ -55,7 +55,7 @@ function TuringSignSSL_output($vars)
     $data = TuringSignSSL_Helper::getViewData($tab);
     $flash = TuringSignSSL_Helper::pullFlash();
     $moduleUrl = 'addonmodules.php?module=TuringSignSSL';
-    $logoUrl = 'modules/addons/TuringSignSSL/logo.png';
+    $logoUrl = 'modules/addons/TuringSignSSL/logo.svg';
     $csrfInput = generate_token();
 
     extract($data, EXTR_SKIP);
